@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Word difficulty classificator</title>
+    <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function () {
+            emailjs.init("user_1jqDW035EiTKFVtD8WTXH");
+        })();
+    </script>
+    <link href='https://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+    <style type="text/css">
+        body {
+            background-color: #ddd;
+            font-family: 'Lato', sans-serif;
+        }
+
+        .site-instructions {
+            font-size: 18px;
+            font-weight: normal;
+        }
+
+        .word-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .word-list__item {
+            margin: 0 calc(50% - 100px / 2) 1px;
+            display: block;
+            height: 27px;
+            line-height: 27px;
+            color: #000;
+            background-color: #fff;
+            width: 100px;
+            cursor: move;
+
+            text-align: center;
+
+            transition: all 200ms ease;
+            transition-property: color, background-color;
+        }
+
+        .word-list__item:hover {
+            color: #fff;
+            background-color: #db4865;
+        }
+
+        .respondent-name {
+            padding: 5px;
+            border: 1px solid #000;
+            height: 20px;
+            border-radius: 2px;
+            margin: 0 5px;
+        }
+
+        .send-that-shit {
+            height: 32px;
+            color: #fff;
+            background-color: #38cb55;
+            border: none;
+            width: 70px;
+            font-weight: bold;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: background-color 200ms ease;
+        }
+
+        .send-that-shit:hover {
+            background-color: #48db65;
+        }
+
+        .send-that-shit:disabled {
+            background-color: #777;
+        }
+
+        .thank-you {
+            display: none;
+            margin: 20% auto 0;
+            font-size: 36px;
+            text-align: center;
+        }
+
+        .something-wrong {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="sorting-form">
+    <span class="site-instructions">Posortuj słowa wg subiektywnej trudności - najłatwiejsze na górze, najtrudniejsze na dole:</span>
+    <ul class="word-list"></ul>
+    <span>Zrobione? Wpisz swoje imię i kliknij "wyślij": </span><input class="respondent-name"
+                                                                       placeholder="Komu mam podziękować?">
+    <button class="send-that-shit">Wyślij!</button>
+</div>
+<div class="thank-you">Dzięki! :)</div>
+<div class="something-wrong">Coś poszło nie tak. Jeśli możesz, skopiuj i prześlij mi poniższy wynik ankiety ręcznie:<br>
+    <textarea class="something-wrong__manual-result" rows="10" cols="50"></textarea>
+    <br>Dzięki!
+</div>
+<script src="jquery.min.js"></script>
+<script src="jquery-ui.min.js"></script>
+<script type="text/javascript">
+    function shuffle(array) {
+        var currentIndex = array.length, temporaryValue, randomIndex;
+
+        // While there remain elements to shuffle...
+        while (0 !== currentIndex) {
+
+            // Pick a remaining element...
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex -= 1;
+
+            // And swap it with the current element.
+            temporaryValue = array[currentIndex];
+            array[currentIndex] = array[randomIndex];
+            array[randomIndex] = temporaryValue;
+        }
+
+        return array;
+    }
+
+    var words = shuffle([
+        "cute",
+        "jazzy",
+        "start",
+        "observation",
+        "disagree",
+        "horrible",
+        "drip",
+        "wobble",
+        "parcel",
+        "false",
+        "cup",
+        "whistle",
+        "haircut",
+        "rabbits",
+        "tedious",
+        "unit",
+        "hard",
+        "substantial",
+        "dirt",
+        "panoramic"
+    ]);
+
+    var wordsAsJQueryElems = words.reduce(function (reduced, current) {
+        return reduced.add($('<li />', {
+            class: 'word-list__item',
+            html: current
+        }));
+    }, $());
+
+    $('.word-list').append(wordsAsJQueryElems).sortable({
+        helper: "clone"
+    });
+
+    $('.send-that-shit').on('click', function () {
+
+        var words = $('.word-list__item').map(function () {
+            return $(this).text();
+        }).toArray();
+
+        $(this).text('...').prop('disabled', 'disabled');
+
+        emailjs.send('gmail', 'template_2SoW5H32', {
+            words: words.join('<br />'),
+            from_name: $('.respondent-name').val()
+        }).then(function () {
+            $('.sorting-form').css('display', 'none');
+            $('.thank-you').css('display', 'block');
+        }).catch(function () {
+            $('.sorting-form').css('display', 'none');
+            $('.something-wrong').css('display', 'block');
+            $('.something-wrong__manual-result').val(words.join('\n'));
+        });
+    });
+</script>
+</body>
+</html>
