@@ -3,12 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Word difficulty classificator</title>
-    <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
-    <script type="text/javascript">
-        (function () {
-            emailjs.init("user_1jqDW035EiTKFVtD8WTXH");
-        })();
-    </script>
     <link href='https://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
     <style type="text/css">
         body {
@@ -20,162 +14,83 @@
             font-size: 18px;
             font-weight: normal;
         }
-
-        .word-list {
-            list-style-type: none;
-            padding-left: 0;
-        }
-
-        .word-list__item {
-            margin: 0 calc(50% - 100px / 2) 1px;
-            display: block;
-            height: 27px;
-            line-height: 27px;
-            color: #000;
-            background-color: #fff;
-            width: 100px;
-            cursor: move;
-
-            text-align: center;
-
-            transition: all 200ms ease;
-            transition-property: color, background-color;
-        }
-
-        .word-list__item:hover {
-            color: #fff;
-            background-color: #db4865;
-        }
-
-        .respondent-name {
-            padding: 5px;
-            border: 1px solid #000;
-            height: 20px;
-            border-radius: 2px;
-            margin: 0 5px;
-        }
-
-        .send-that-shit {
-            height: 32px;
-            color: #fff;
-            background-color: #38cb55;
-            border: none;
-            width: 70px;
-            font-weight: bold;
-            border-radius: 2px;
-            cursor: pointer;
-            transition: background-color 200ms ease;
-        }
-
-        .send-that-shit:hover {
-            background-color: #48db65;
-        }
-
-        .send-that-shit:disabled {
-            background-color: #777;
-        }
-
-        .thank-you {
-            display: none;
-            margin: 20% auto 0;
-            font-size: 36px;
-            text-align: center;
-        }
-
-        .something-wrong {
-            display: none;
-        }
     </style>
 </head>
 <body>
-<div class="sorting-form">
-    <span class="site-instructions">Posortuj słowa wg subiektywnej trudności - najłatwiejsze na górze, najtrudniejsze na dole:</span>
-    <ul class="word-list"></ul>
-    <span>Zrobione? Wpisz swoje imię i kliknij "wyślij": </span><input class="respondent-name"
-                                                                       placeholder="Komu mam podziękować?">
-    <button class="send-that-shit">Wyślij!</button>
+<div class="site-instructions">
+    <h1>O co tu chodzi?</h1>
+    <p>
+        Gra Truth Or Bunk ma na celu zweryfikowanie połączeń pomiędzy słownikiem WordNet a Wikipedią. Tl;dr ktoś kiedyś
+        napisał magisterkę w której zajął się tematem dopasowywania stron Wikipedii do definicji w angielskim słowniku.
+        Ta magisterka powstała, teraz należy zweryfikować czy utworzone dopasowania są poprawne. I tutaj wchodzi do
+        akcji gra, którą napisałem - grając w nią pomożecie dokonać weryfikacji. Nie wnikajcie w szczegóły, nie chcę się
+        rozpisywać :P
+    </p>
+
+    <h1>Jak grać?</h1>
+    <p>
+        Gra jest dostępna pod <a href="https://kask.eti.pg.gda.pl/tgame5/tob/">tym adresem</a>. Po uruchomieniu można
+        właściwie grać od razu - istnieje opcja rejestracji, ale jest nieobowiązkowa, różni się tylko tym, że wyniki
+        zarejestrowanych osób będą widoczne na liście "high scores". Uwaga, gra jest po angielsku i <b>jest dosyć
+        trudna</b>.
+    </p>
+    <p>
+        Sama gra ma formułę a la teleturniej, przy czym chciałem coś bardziej oryginalnego niż oklepani Milionerzy. Po
+        przejrzeniu <a href="https://en.wikipedia.org/wiki/List_of_American_game_shows">listy amerykańskich
+        teleturniejów</a> udało mi się znaleźć coś ciekawego. A zatem gra wygląda następująco:
+    </p>
+    <ul>
+        <li>dostajemy $100 na start</li>
+        <li>przed każdym pytaniem robimy zakład - stawiamy co najmniej $10</li>
+        <li>
+            dostajemy pytanie w formie "słowo - definicja", np. "chleb - pieczywo otrzymywane z wypieku ciasta, będącego
+            jednorodnym połączeniem mąki zbożowej różnego gatunku i wody"
+        </li>
+        <li>naszym zadaniem jest powiedzieć czy zaprezentowana para to PRAWDA (TRUTH) czy BZDURA (BUNK)</li>
+        <li>jeśli poprawnie wytypujemy prawdę - wygrywamy dwukrotność naszego zakładu</li>
+        <li>jeśli poprawnie wytypujemy fałsz - wygrywamy trzykrotność naszego zakładu</li>
+        <li>jeśli się pomylimy - tracimy wszystko co postawiliśmy</li>
+    </ul>
+    <p>
+        I tak sobie gramy 5 rund po 8 pytań. Gra kończy się albo kiedy odpowiemy na wszystkie pytania, albo na nasze
+        żądanie po zakończeniu każdej z rund, albo kiedy stracimy wszystkie pieniądze.
+    </p>
+
+    <h1>Pytania</h1>
+    <p>
+        Lwią część mojej magisterki pochłonęła praca nad tym, żeby pytania pojawiały się coraz trudniejsze w kolejnych
+        rundach. Temat okazał się być na tyle skomplikowany i wymagający dogłębnej analizy, że niedługo ukaże się nawet
+        publikacja naukowa, której będę współautorem :3 w każdym razie wydaje mi się, że udało mi się to całkiem dobrze.
+    </p>
+    <p>
+        Pytania powstały na takiej zasadzie, że na początku były same "poprawne" odpowiedzi, czyli pary definicja -
+        strona z Wikipedii powstałe z magisterki tamtego ziomka. Do każdej takiej pary zostały jeszcze dobrane 3 inne
+        strony z Wikipedii, te najbardziej podobne. To stwarza czasem ciekawe sytuacje że odpowiedź albo jest wręcz
+        oczywista, albo zupełnie nieoczywista. W razie gdy się pomylimy ale nie zgadzamy się z tym, możemy zaraportować
+        pytanie. My otrzymamy informację że z danym pytaniem jest coś nie tak, Wy będziecie mogli powtórzyć pytanie.
+        Jednak taka możliwość jest dostępna wyłącznie raz na rundę.
+    </p>
+
+    <h1>Dodatkowe uwagi</h1>
+    <ul>
+        <li>Gra jest brzydka. Robiłem co mogłem, ale nie jestem zbyt dobrym grafikiem xD wybaczcie</li>
+        <li>Gra powinna działać wszędzie, także na telefonach</li>
+        <li>W razie jakichś problemów, błędów, czegokolwiek - <a href="mailto:magisterkawdc@gmail.com">skrobnijcie mi
+            maila</a> albo napiszcie na Facebooku
+        </li>
+    </ul>
+
+    <h1>Znane błędy/niedociągnięcia</h1>
+    <span>*których chwilowo nie poprawię, bo mój promotor jest na urlopie xD ale da radę grać</span>
+    <ul>
+        <li>W Firefoxie menu wyswietla się z jakiegoś powodu po lewej stronie zamiast pośrodku</li>
+        <li>Nie można się wylogować. Można się co najwyżej zalogować na inne konto</li>
+        <li>Nie da się z menu przejść do podstrony z najlepszymi wynikami</li>
+        <li>...i pewnie inne, czekam na zgłoszenia od Was</li>
+    </ul>
+
+    <!-- ale oldschool, tag center! -->
+    <CENTER><h1><A HREF="https://kask.eti.pg.gda.pl/tgame5/tob/" STYLE="text-transform: uppercase;">No to gramy!</A></h1></CENTER>
 </div>
-<div class="thank-you">Dzięki! :)</div>
-<div class="something-wrong">Coś poszło nie tak. Jeśli możesz, skopiuj i prześlij mi poniższy wynik ankiety ręcznie:<br>
-    <textarea class="something-wrong__manual-result" rows="10" cols="50"></textarea>
-    <br>Dzięki!
-</div>
-<script src="jquery.min.js"></script>
-<script src="jquery-ui.min.js"></script>
-<script type="text/javascript">
-    function shuffle(array) {
-        var currentIndex = array.length, temporaryValue, randomIndex;
-
-        // While there remain elements to shuffle...
-        while (0 !== currentIndex) {
-
-            // Pick a remaining element...
-            randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex -= 1;
-
-            // And swap it with the current element.
-            temporaryValue = array[currentIndex];
-            array[currentIndex] = array[randomIndex];
-            array[randomIndex] = temporaryValue;
-        }
-
-        return array;
-    }
-
-    var words = shuffle([
-        "cute",
-        "jazzy",
-        "start",
-        "observation",
-        "disagree",
-        "horrible",
-        "drip",
-        "wobble",
-        "parcel",
-        "false",
-        "cup",
-        "whistle",
-        "haircut",
-        "rabbits",
-        "tedious",
-        "unit",
-        "hard",
-        "substantial",
-        "dirt",
-        "panoramic"
-    ]);
-
-    var wordsAsJQueryElems = words.reduce(function (reduced, current) {
-        return reduced.add($('<li />', {
-            class: 'word-list__item',
-            html: current
-        }));
-    }, $());
-
-    $('.word-list').append(wordsAsJQueryElems).sortable({
-        helper: "clone"
-    });
-
-    $('.send-that-shit').on('click', function () {
-
-        var words = $('.word-list__item').map(function () {
-            return $(this).text();
-        }).toArray();
-
-        $(this).text('...').prop('disabled', 'disabled');
-
-        emailjs.send('gmail', 'template_2SoW5H32', {
-            words: words.join('<br />'),
-            from_name: $('.respondent-name').val()
-        }).then(function () {
-            $('.sorting-form').css('display', 'none');
-            $('.thank-you').css('display', 'block');
-        }).catch(function () {
-            $('.sorting-form').css('display', 'none');
-            $('.something-wrong').css('display', 'block');
-            $('.something-wrong__manual-result').val(words.join('\n'));
-        });
-    });
-</script>
 </body>
 </html>
